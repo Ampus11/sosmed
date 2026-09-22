@@ -10,4 +10,6 @@ if ($koneksi->connect_error) {
     die("Koneksi database gagal: " . $koneksi->connect_error);
 }
 
+// Set zona waktu default ke Indonesia (Asia/Jakarta)
+date_default_timezone_set('Asia/Jakarta');
 ?>

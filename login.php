@@ -2,8 +2,12 @@
 session_start();
 include 'koneksi.php';
 
+if (isset($_GET['pesan']) && $_GET['pesan'] == 'reset_sukses') {
+    echo "<script>alert('Password berhasil diubah! Silakan login dengan password baru.');</script>";
+}
+
 if (isset($_POST['login'])) {
-    $user_input = $_POST['username']; 
+    $user_input = mysqli_real_escape_string($koneksi, $_POST['username']); 
     $password   = $_POST['password'];
     $query = "SELECT * FROM users WHERE username='$user_input' OR email='$user_input'";
     $result = $koneksi->query($query);
@@ -13,6 +17,7 @@ if (isset($_POST['login'])) {
             $_SESSION['user_id']  = $user['id'];
             $_SESSION['username'] = $user['username'];
             header("Location: index.php");
+            exit();
         } else {
             echo "<script>alert('Password Salah!');</script>";
         }
@@ -30,7 +35,7 @@ if (isset($_POST['login'])) {
 </head>
 <body>
     <div class="auth-container">
-        <h2>Add account</h2>
+        <h2>Login ke akun</h2>
         <form action="" method="POST">
             <div class="form-group">
                 <input type="text" name="username" class="form-control" placeholder="Username or Email" required>
@@ -41,6 +46,7 @@ if (isset($_POST['login'])) {
             <button type="submit" name="login" class="btn btn-outline">Login</button>
         </form>
         <div class="auth-links">
+            <a href="lupa_password.php">Lupa Password?</a>
             <a href="register.php"><strong>Buat akun Baru</strong></a>
         </div>
     </div>

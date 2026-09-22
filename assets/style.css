@@ -1,0 +1,114 @@
+/* Mengatur font dan background utama halaman */
+body {
+    background-color: #000; /* Warna latar belakang hitam */
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Mengatur kotak form login/register */
+.auth-container {
+    background-color: #1a1a1b;
+    padding: 30px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Mengatur label input */
+.form-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: #ccc;
+    font-weight: bold;
+}
+
+/* Mengatur tampilan input text, email, password, dan select */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Mengatur tampilan layout dropdown tanggal lahir */
+.birthday-group {
+    display: flex;
+    gap: 10px;
+}
+
+.birthday-group select {
+    flex: 1;
+}
+
+/* Mengatur tampilan tombol */
+.btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.btn-solid {
+    background-color: #666;
+    border: none;
+    color: #fff;
+}
+
+.btn-solid:hover {
+    background-color: #777;
+}
+
+/* Mengatur tautan (link) di bawah tombol */
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.disclaimer {
+    font-size: 10px;
+    color: #aaa;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.disclaimer a {
+    color: #4da6ff;
+    text-decoration: none;
+}

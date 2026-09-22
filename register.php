@@ -1,22 +1,33 @@
 <?php
+session_start();
 include 'koneksi.php';
 
 if (isset($_POST['register'])) {
-    $username = $_POST['username'];
-    $email    = $_POST['email'];
+    $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
     $pass     = $_POST['password'];
-    $bulan   = $_POST['bulan'];
-    $tanggal = $_POST['tanggal'];
-    $tahun   = $_POST['tahun'];
-    $tanggal_format = str_pad($tanggal, 2, '0', STR_PAD_LEFT);
-    $tgl_lahir = "$tahun-$bulan-$tanggal_format";
-    $password_hashed = password_hash($pass, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO users (username, email, password, tanggal_lahir) 
-            VALUES ('$username', '$email', '$password_hashed', '$tgl_lahir')";
-    if ($koneksi->query($sql) === TRUE) {
-        echo "<script>alert('Registrasi Berhasil! Silakan Login'); window.location='login.php';</script>";
+    $bulan    = $_POST['bulan'];
+    $tanggal  = $_POST['tanggal'];
+    $tahun    = $_POST['tahun'];
+
+    // Cek apakah username sudah dipakai atau belum
+    $cek = $koneksi->query("SELECT id FROM users WHERE username = '$username' OR email = '$email'");
+    if ($cek->num_rows > 0) {
+        echo "<script>alert('Username atau Email sudah terdaftar!'); window.history.back();</script>";
     } else {
-        echo "<script>alert('Error: " . $koneksi->error . "');</script>";
+        $tanggal_format = str_pad($tanggal, 2, '0', STR_PAD_LEFT);
+        $tgl_lahir = "$tahun-$bulan-$tanggal_format";
+        $password_hashed = password_hash($pass, PASSWORD_DEFAULT);
+
+        // Kolom bio dan foto_profil bisa diisi nanti di halaman profil
+        $sql = "INSERT INTO users (username, email, password, tanggal_lahir) 
+                VALUES ('$username', '$email', '$password_hashed', '$tgl_lahir')";
+        
+        if ($koneksi->query($sql) === TRUE) {
+            echo "<script>alert('Registrasi Berhasil! Silakan Login'); window.location='login.php';</script>";
+        } else {
+            echo "<script>alert('Error: " . $koneksi->error . "');</script>";
+        }
     }
 }
 ?>
@@ -40,31 +51,27 @@ if (isset($_POST['register'])) {
                         <option value="" disabled selected>Bulan</option>
                         <?php
                         $months = [
-                            '01' => 'January', '02' => 'February', '03' => 'March',
-                            '04' => 'April', '05' => 'May', '06' => 'June',
-                            '07' => 'July', '08' => 'August', '09' => 'September',
-                            '10' => 'October', '11' => 'November', '12' => 'December'
+                            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret',
+                            '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+                            '07' => 'July', '08' => 'Agustus', '09' => 'September',
+                            '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
                         ];
-                        // Looping untuk menampilkan option bulan
                         foreach ($months as $num => $name) {
                             echo "<option value='$num'>$name</option>";
                         }
                         ?>
                     </select>
                     <select name="tanggal" class="form-control" required>
-                        <option value="" disabled selected>Day</option>
+                        <option value="" disabled selected>Tanggal</option>
                         <?php
-                        // Looping dari tanggal 1 sampai 31
                         for ($i = 1; $i <= 31; $i++) {
                             echo "<option value='$i'>$i</option>";
                         }
                         ?>
                     </select>
-
                     <select name="tahun" class="form-control" required>
-                        <option value="" disabled selected>Year</option>
+                        <option value="" disabled selected>Tahun</option>
                         <?php
-                        // Mengambil tahun saat ini, dan melooping mundur hingga tahun 1900
                         $currentYear = date('Y');
                         for ($i = $currentYear; $i >= 1900; $i--) {
                             echo "<option value='$i'>$i</option>";
@@ -83,7 +90,7 @@ if (isset($_POST['register'])) {
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                <input type="email" name="email" class="form-control" required>
             </div>
             <div class="disclaimer">
                 Dengan mendaftar, Anda menyetujui<a href="#"> Ketentuan Pengguna </a> kami dan menyetujui <a href="#">Kebijakan Privasi</a>.
